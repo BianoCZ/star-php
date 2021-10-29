@@ -1,0 +1,27 @@
+{
+    "name": "biano/star-php",
+    "autoload": {
+        "psr-4": {
+            "Biano\\Star\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Biano\\Star\\": "tests/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Lukáš Unger",
+            "email": "lukas.unger@biano.com"
+        }
+    ],
+    "require": {
+        "php": ">= 7.4",
+        "ext-json": "*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.5",
+        "phpstan/phpstan": "^0.12.99"
+    }
+}
