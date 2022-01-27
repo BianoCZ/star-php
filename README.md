@@ -1,5 +1,13 @@
 # Biano Star
 
+## Installation
+
+Install with [Composer](https://getcomposer.org/):
+
+```
+composer require biano/star-php
+```
+
 ## Create an order
 
 ```php
