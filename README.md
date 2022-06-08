@@ -8,6 +8,13 @@ Install with [Composer](https://getcomposer.org/):
 composer require biano/star-php
 ```
 
+## Requirements
+
+* This library uses [HTTPlug](http://httplug.io/) for HTTP client abstraction.
+* This library uses [HTTP Factories](https://www.php-fig.org/psr/psr-17/) for manipulating HTTP requests.
+
+You will need to install implementations of these abstraction layers to be able to use this library.
+
 ## Create an order
 
 ```php
@@ -37,21 +44,32 @@ The `Biano\Star\Order` constructor has the following signature: `public function
 * `$shippingDate` is the expected shipping date of this order. This parameter can be `null`, in which case you should then use alternative ways to specify the shipping date. For more information, consult the Biano Star manual.
 * `$items` is an array of order items. Notice the usage of the spread operator (`...`), as this parameter is variadic.
 
-## Build the URL
+## Send order to Biano
 
 ```php
 use Biano\Star\Project;
 use Biano\Star\Star;
 use Biano\Star\Version;
 
-$url = Star::createPurchaseUrl(Project::cz(), Version::v1(), 'your-merchant-id', 'current-url', $order);
+$star = new Star($httpClient, $requestFactory, $streamFactory); 
+$response = $star->createPurchase(Project::cz(), Version::v1(), 'your-merchant-id', 'current-url', $order);
 ```
 
 Choose the correct country of your eshop, supply a version parameter (currently only `v1` is supported), your eshop's Merchant ID, current URL of the page the order is being created at (this is usually something like the last step of your shopping cart, or the "Thank you" page on return from the payment gate), and the order.
 
-## Call the URL
+## Update the shipping date
 
-Finally, you should call the created `$url` somehow. In PHP you generally have three options:
-* [file_get_contents](https://www.php.net/file_get_contents)
-* [cURL](https://www.php.net/manual/en/book.curl.php)
-* Third party library like [Guzzle](https://docs.guzzlephp.org/en/stable/) or Symfony's [HTTP Client](https://symfony.com/doc/current/http_client.html).
+**This feature must be enabled by Biano. Contact your Biano partner first!**
+
+```php
+use Biano\Star\Project;
+use Biano\Star\Star;
+
+$star = new Star($httpClient, $requestFactory, $streamFactory);
+$response = $star->updateShippingDate(Project::cz(), 'your-merchant-id', 'order-123', new DateTimeImmutable('2022-06-08'));
+```
+
+Choose the correct country of your eshop, supply your eshop's Merchant ID, the order ID, and the new shipping date.
+
+You can update the shipping date as many times as you want.
+
