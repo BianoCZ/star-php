@@ -54,4 +54,9 @@ final class Project
         return new self('biano.pt');
     }
 
+    public static function gr(): self
+    {
+        return new self('biano.gr');
+    }
+
 }
